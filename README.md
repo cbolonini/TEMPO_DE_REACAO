@@ -1,0 +1,1 @@
+"# TEMPO_DE_REACAO" 

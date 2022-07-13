@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- CSS only -->
+
+  <style>
+    .bola {
+      width: 50px;
+      height: 50px;
+      background: silver;
+      margin: auto;
+      margin-left: 10px;
+      border-radius: 100%;
+      display: inline-flex;
+    }
+
+    button {
+      font-size: 2rem;
+      margin: 100px auto;
+      margin-left: 50px;
+    }
+
+    section {
+      height: 100px;
+      background-color: black;
+      width: 100%;
+      align-items: center;
+      justify-items: center;
+      text-align: center;
+      padding: 10px;
+    }
+
+    input {
+      width: 80%;
+      margin: auto;
+      font-size: 2rem;
+    }
+
+    .areaBolas {
+      margin-left: -10px;
+      padding-top: 10px;
+    }
+
+    #BOTAO_ACIONAR {
+
+      background: red;
+      color: white;
+      font-size: 4rem;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0px 1px 5px yellow;
+      position: absolute;
+      bottom: 100px;
+      right: 100px;
+      transition: 1s;
+      display: none;
+    }
+
+    #BOTAO_ACIONAR:hover {
+      background: green;
+      box-shadow: 0px 5px 15px yellow;
+
+    }
+
+    #modal {
+      width: 100vw;
+      height: 100vw;
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: none;
+
+    }
+
+    #modalFilha {
+      width: 50%;
+      max-width: 800px;
+      height: 600px;
+      margin: 200px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0px 0px 50px #61c5db;
+    }
+    .cardName{
+      position: absolute;
+      text-align: center;
+      padding: 10px;
+      top: 0%;
+      border: 1px dashed #61c5db;
+      right: 50px;
+    }
+  </style>
+
+
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+</head>
+
+<body  onkeydown="ENTER()" style="padding: 10px ;background-color: black; background: url(hyoku.png)">
+
+  <div class="cardName">
+    <h1 style="color: #61c5db; font-size: 4rem; font-weigth: bold">HYOKU TEAM</h1>
+  </div>
+
+  <div id="corpoDoJogo" style="display: none" class="row">
+    <div id="PISTA" style="max-height: 95vh; overflow-y: auto;scroll-behavior: smooth; margin: auto" class="col-md-4  ">
+      <section style="position: fixed; top: 0; left: 0; max-width: 33%">
+        <div class="areaBolas">
+          <div class="bola"></div>
+          <div class="bola"></div>
+          <div class="bola"></div>
+          <div class="bola"></div>
+          <div class="bola"></div>
+        </div>
+      </section>
+      <div id="PISTA">
+        <img style="    height: 230vh;
+        margin: auto;
+        width: 100%;" src="pista.png" alt="">
+
+        <img id="carro"
+          style="        height: 250px;/* margin: auto; */z-index: 9999;position: absolute;width: 110px;bottom: 50px;          left: calc(50% - 55px);"
+          src="carro.png" alt="">
+
+      </div>
+      <div id="fundoPista"></div>
+
+
+    </div>
+    <div id="dados" style="display: none" class="col-md-8   animate__animated animate__slideInRight">
+
+
+
+      <h1 style="color: white">O resultado do <span id="nomeDoCabrito"></span>:</h1>
+
+      <hr>
+
+      <div class="container" style="max-width: 80%">
+
+
+        <div style="width: 100%;" class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+          <div class="col" style="
+          width: 90%;
+      ">
+            <div class="card mb-4 rounded-3 shadow-sm">
+              <div class="card-header py-3">
+                <h4 id="categoria" class="my-0 fw-normal" style="
+          font-size: 4rem;
+      ">Iniciante</h4>
+              </div>
+              <div class="card-body">
+                <h1 class="card-title pricing-card-title" style="
+          font-size: 10rem;
+      " id="tempoDeReacao">300<small class="text-muted fw-light">/ms</small></h1>
+                <ul class="list-unstyled mt-3 mb-4" style="
+          font-size: 2rem;
+      ">
+
+                  <li>Horario da largada: <span id="horaDaLargada"> </span></li>
+                  <li>Horário da reação: <span id="horaDaReacao"> </span></li>
+                  <li>Diferença: <span id="tempoDeReacao2"></span></li>
+                  <li>Nota: <span id="nota"></span></li>
+
+                </ul>
+                <button onclick="tentaDeNovo()" type="button" class="w-100 btn btn-lg btn-outline-primary" style="
+          font-size: 5rem;
+      ">TENTE NOVAMENTE!</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+
+    </div>
+
+
+
+
+  </div>
+
+  <button id="BOTAO_ACIONAR" class="animate__animated animate__lightSpeedInRight" onclick="acionar()">APERTE ENTER OU CLIQUE</button>
+
+  <div id="modal">
+
+    <div id="modalFilha">
+      <h1 style="text-align: center;">Olá Jogador!</h1>
+      <hr>
+      <h2 style="text-align: center;">Qual o seu nome?</h2>
+      <br>
+      <br>
+      <input style="    font-size: 2rem;
+       font-weight: 800;" list="jogadores" id="competidor" class="form-control" placeholder="Digite o seu nome" />
+
+      <datalist id="jogadores">
+        <option>RONAN RODRIGUES</option>
+        <option>VINICIUS GABRIEL</option>
+        <option>YAN MACHAD</option>
+        <option>EDUARDO GALINA</option>
+      </datalist>
+
+      <hr>
+      <h3 style="color:green ;">Está pronto?<br>Clique para jogar!</h3>
+      <hr>
+      <button style="    width: 100%;
+       height: 200px;
+       font-size: 3rem;
+       color: #61c5db;
+       background: black;
+       border: 2px solid #61c5db;
+       font-weight: 900;
+       border-radius: 20px;" onclick="start()">COMEÇAR</button>
+
+
+
+
+
+    </div>
+
+  </div>
+
+
+
+
+  <!-- JavaScript Bundle with Popper -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+    crossorigin="anonymous"></script>
+
+  <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"
+    integrity="sha256-eTyxS0rkjpLEo16uXTS0uVCS4815lc40K2iVpWDvdSY=" crossorigin="anonymous"></script>
+
+  <script>
+
+    function ENTER(e){
+      e = window.event
+
+      console.log(e)
+
+      if(e.key === 'Enter'){
+        acionar()
+      }
+    }
+
+    function tentaDeNovo(){
+      location.reload()
+    }
+
+    scrollPista(1)
+
+    $("#modal").show()
+
+    $("#corpoDoJogo").css("filter", "blur(10px)")
+
+    function saiOCarro() {
+      var velocidade = 50;
+      setInterval(() => {
+        velocidade = velocidade + 10
+        $("#carro").css("bottom", velocidade + "px")
+
+      }, 1)
+    }
+
+    function reverso() {
+
+      $("#modal").fadeOut()
+      $("#corpoDoJogo").css("filter", "none")
+      $("#corpoDoJogo").fadeIn()
+
+      scrollPista(1)
+
+      setTimeout(() => {
+        $("#BOTAO_ACIONAR").fadeIn()
+      }, 2000);
+
+    }
+
+
+    function scrollPista(baixo) {
+      var objDiv = document.getElementById("PISTA");
+      if (baixo == 1) {
+        objDiv.scrollTop = objDiv.scrollHeight;
+      } else {
+        objDiv.scrollTop = 0;
+      }
+    }
+
+
+
+    //=====================================================================================================
+
+
+    function minhaNota(meuTempo) { 
+
+        if(meuTempo <= 300){
+          return { nota: 10, categoria: "PROFISSIONAL" }
+        }
+        if(meuTempo > 300 && meuTempo <= 500){
+          return { nota: 7, categoria: "NORMAL" }
+        }
+        if(meuTempo > 500){
+          return { nota: 3, categoria: "INICIANTE" }
+        }
+        return "ERRO"
+        
+
+
+    }
+
+
+
+
+
+    function acionar() {
+
+      if(jaPossoTentar === true){
+        var nomeDoCompetidor = $("#competidor").val()
+        var queHoraEAgora = new Date()
+        var tempoDeReacao = queHoraEAgora - listaDeTempos[listaDeTempos.length - 1].horaExataEmQueApagou
+        scrollPista(0)
+        // alert(
+
+        //   nomeDoCompetidor + " aguardou por " +
+        //   listaDeTempos[listaDeTempos.length - 1].tempoAleatorio.toFixed(3)
+        //   + " segundos, a luz apagou no horario a seguir:  " +
+        //   horaBunitinha(listaDeTempos[listaDeTempos.length - 1].horaExataEmQueApagou) +
+        //   " ele acionou na seguinte hora: " + horaBunitinha(queHoraEAgora) +
+        //   " isso significa que o tempo de reação é: " + horaBunitinha(tempoDeReacao)
+
+
+        // )
+
+
+
+        var meuTEMPO = new Date(tempoDeReacao).getMilliseconds() 
+        $("#nomeDoCabrito").css("color","yellow")
+
+        $("#horaDaLargada").text(
+          horaBunitinha(listaDeTempos[listaDeTempos.length - 1].horaExataEmQueApagou)
+        )
+        $("#horaDaReacao").text(
+          horaBunitinha(queHoraEAgora)
+        )
+
+      
+
+
+
+        $("#nomeDoCabrito").text(
+          $("#competidor").val()
+        )
+        $("#tempoDeReacao2").text(
+          meuTEMPO
+        )
+
+        $("#tempoDeReacao").html(
+          meuTEMPO+'<small class="text-muted fw-light">ms</small>'
+        )
+        $("#nota").text(
+          minhaNota(meuTEMPO).nota
+        )
+        $("#categoria").text(
+          minhaNota(meuTEMPO).categoria  
+        )
+
+        saiOCarro()
+      
+
+        setTimeout(() => {
+          $("#carro").css("left", "calc(16% - 55px)")
+          $("#dados").show()
+        }, 2500);
+
+
+      }else{
+         alert("Calma apressado!")
+      }
+
+   
+
+
+
+
+    }
+
+    var listaDeTempos = []
+
+    var jaPossoTentar = false
+
+    function start() {
+      reverso()
+
+      var divs = $(".bola")
+      var contador = 0
+      setInterval(() => {
+        if (contador <= divs.length) {
+          if (divs[contador] != undefined) {
+            divs[contador].style.backgroundColor = "red"
+          }
+        }
+        if (contador === divs.length) {
+          var meuUltimoTempo = numeroAleatorio(2, 10)
+          setTimeout(() => {
+
+
+
+            listaDeTempos.push(
+              {
+                tempoAleatorio: meuUltimoTempo,
+                horaExataEmQueApagou: new Date()
+              }
+
+
+            )
+            jaPossoTentar = true
+
+            $(".bola").css("background-color", "black")
+
+          }, (meuUltimoTempo * 1000));
+        }
+        contador++
+      }, 2000)
+
+
+    }
+
+
+
+    function numeroAleatorio(min, max) {
+      return Math.random() * (max - min) + 1
+    }
+
+    function horaBunitinha(dateEnviada) {
+      date = new Date(dateEnviada)
+      var hora = date.getHours(), minuto = date.getMinutes(), segundo = date.getSeconds(), milisegundos = date.getMilliseconds();
+      if (hora < 10) { hora = "0" + hora }
+      if (minuto < 10) { minuto = "0" + minuto }
+      if (segundo < 10) { segundo = "0" + segundo }
+      return hora + ":" + minuto + ":" + segundo + "." + milisegundos
+
+    }
+  </script>
+
+</html>

@@ -1,0 +1,132 @@
+<style>
+  .bola {
+    width: 130px;
+    height: 130px;
+    background: silver;
+    margin: auto;
+    margin-left: 50px;
+    border-radius: 100%;
+    display: inline-flex;
+  }
+
+  button {
+    font-size: 2rem;
+    margin: 100px auto;
+    margin-left: 50px;
+  }
+
+  section {
+    height: 20vh;
+    background-color: black;
+    width: 100vw;
+    align-items: center;
+    justify-items: center;
+    text-align: center;
+    padding: 10px;
+  }
+
+  input {
+    width: 80%;
+    margin: auto;
+    font-size: 2rem;
+  }
+</style>
+
+
+<section>
+
+  <div class="bola"></div>
+  <div class="bola"></div>
+  <div class="bola"></div>
+  <div class="bola"></div>
+  <div class="bola"></div>
+
+</section>
+
+<hr>
+<input type="text" id="competidor" placeholder="Digite aqui o nome de quem vai competir" />
+<hr>
+
+<button onclick="start()">CRONOMETRO</button>
+
+<button onclick="acionar()">ACIONAR</button>
+
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+
+  function acionar() {
+    var nomeDoCompetidor = $("#competidor").val()
+    var queHoraEAgora = new Date()
+    var tempoDeReacao = queHoraEAgora - listaDeTempos[listaDeTempos.length - 1].horaExataEmQueApagou
+    alert(
+
+      nomeDoCompetidor + " aguardou por " +
+      listaDeTempos[listaDeTempos.length - 1].tempoAleatorio.toFixed(3) 
+      + " segundos, a luz apagou no horario a seguir:  " + 
+      horaBunitinha(listaDeTempos[listaDeTempos.length - 1].horaExataEmQueApagou) + 
+      " ele acionou na seguinte hora: "+ horaBunitinha(queHoraEAgora)+
+      " isso significa que o tempo de reação é: " + horaBunitinha(tempoDeReacao)
+      
+
+    )
+  }
+
+  var listaDeTempos = []
+
+  function start() {
+
+    var divs = $(".bola")
+    var contador = 0
+    setInterval(() => {
+      if (contador <= divs.length) {
+        if (divs[contador] != undefined) {
+          divs[contador].style.backgroundColor = "red"
+        }
+      }
+      if (contador === divs.length) {
+        var meuUltimoTempo = numeroAleatorio(2, 10)
+        setTimeout(() => {
+
+
+
+          listaDeTempos.push(
+            {
+              tempoAleatorio: meuUltimoTempo,
+              horaExataEmQueApagou: new Date()
+            }
+
+
+          )
+
+          $(".bola").css("background-color", "black")
+
+        }, (meuUltimoTempo * 1000));
+      }
+      contador++
+    }, 2000)
+
+
+  }
+
+
+
+  function numeroAleatorio(min, max) {
+    return Math.random() * (max - min) + 1
+  }
+
+  function horaBunitinha(dateEnviada){ 
+    date = new Date(dateEnviada)
+    var hora =  date.getHours(), minuto = date.getMinutes(), segundo = date.getSeconds(), milisegundos = date.getMilliseconds();    
+    if(hora < 10){ hora = "0"+hora}
+    if(minuto < 10){ minuto = "0"+minuto}
+    if(segundo < 10){ segundo = "0"+segundo}
+    return hora + ":" + minuto   + ":" + segundo +"."+milisegundos
+
+}
+
+</script>
